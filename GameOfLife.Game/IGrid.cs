@@ -2,6 +2,6 @@
 {
     public interface IGrid
     {
-        ICell this[int x, int y] { get; }
+        ICell this[int x, int y] { get; set; }
     }
 }
