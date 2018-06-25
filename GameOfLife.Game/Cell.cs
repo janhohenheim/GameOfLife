@@ -2,7 +2,7 @@
 
 namespace GameOfLife.Game
 {
-    public class Cell : ICell
+    public struct Cell : ICell
     {
         public Cell(bool isAlive)
         {

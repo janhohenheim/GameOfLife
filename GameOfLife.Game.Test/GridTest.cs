@@ -7,6 +7,31 @@ namespace GameOfLife.Game.Test
     public class GridTest
     {
         [TestMethod]
+        public void TestThrowsAtZeroedWidth()
+        {
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Grid(width: 0, height: 3));
+        }
+
+        [TestMethod]
+        public void TestThrowsAtZeroedHeight()
+        {
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Grid(width: 3, height: 0));
+        }
+
+        [TestMethod]
+        public void TestThrowsAtNegativeWidth()
+        {
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Grid(width: -1, height: 3));
+        }
+
+        [TestMethod]
+        public void TestThrowsAtNegativeHeight()
+        {
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Grid(width: 3, height: -1));
+        }
+
+
+        [TestMethod]
         public void TestInitializesNotAlive()
         {
             IGrid grid = new Grid(width: 3, height: 3);
@@ -69,6 +94,22 @@ namespace GameOfLife.Game.Test
         {
             IGrid grid = new Grid(width: 3, height: 3);
             Assert.ThrowsException<IndexOutOfRangeException>(() => grid[x: 3, y: 3] = new Cell(true));
+        }
+
+        [TestMethod]
+        public void TestReturnsCorrectWidth()
+        {
+            IGrid grid = new Grid(width: 3, height: 4);
+            var width = grid.Width;
+            Assert.AreEqual(3, width);
+        }
+        
+        [TestMethod]
+        public void TestReturnsCorrectHeight()
+        {
+            IGrid grid = new Grid(width: 3, height: 4);
+            var height = grid.Height;
+            Assert.AreEqual(4, height);
         }
     }
 }

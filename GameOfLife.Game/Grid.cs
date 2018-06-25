@@ -9,6 +9,11 @@ namespace GameOfLife.Game
 
         public Grid(int width, int height)
         {
+            if (width <= 0 || height <= 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+             
             _grid = new ICell[width, height];
             for (var x = 0; x < width; x++)
             {
@@ -23,6 +28,25 @@ namespace GameOfLife.Game
         {
             get => _grid[x, y];
             set => _grid[x, y] = value;
+        }
+
+        public int Width => _grid.GetLength(0);
+
+        public int Height => _grid.GetLength(1);
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Grid grid)
+            {
+                return _grid == grid._grid;
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return (_grid != null ? _grid.GetHashCode() : 0);
         }
     }
 }
