@@ -10,5 +10,10 @@ namespace GameOfLife.Game
         }
 
         public bool IsAlive { get; }
+
+        public override string ToString()
+        {
+            return $"{(IsAlive ? "Living Cell" : "Dead Cell")}";
+        }
     }
 }

@@ -6,22 +6,25 @@ namespace GameOfLife.Game.Test
     [TestClass]
     public class GameTest
     {
+        private IGame _game = new Game(
+            (width, height) => new Grid(width, height),
+            () => new Cell(true),
+            () => new Cell(false));
+
         [TestMethod]
         public void TestDeadGridStaysDead()
         {
-            IGame game = new Game();
             IGrid deadGrid = new Grid(3, 3);
-            IGrid nextGen = game.NextGeneration(deadGrid);
+            IGrid nextGen = _game.NextGeneration(deadGrid);
             Assert.AreEqual(deadGrid, nextGen);
         }
 
         [TestMethod]
         public void TestLoneAliveCellDies()
         {
-            IGame game = new Game();
             IGrid grid = new Grid(3, 3);
             grid[1, 1] = new Cell(true);
-            var nextGen = game.NextGeneration(grid);
+            var nextGen = _game.NextGeneration(grid);
 
             IGrid deadGrid = new Grid(3, 3);
             Assert.AreEqual(deadGrid, nextGen);
@@ -31,10 +34,9 @@ namespace GameOfLife.Game.Test
         [TestMethod]
         public void TestAliveCellInCornerDies()
         {
-            IGame game = new Game();
             IGrid grid = new Grid(3, 3);
             grid[0, 0] = new Cell(true);
-            var nextGen = game.NextGeneration(grid);
+            var nextGen = _game.NextGeneration(grid);
 
             IGrid deadGrid = new Grid(3, 3);
             Assert.AreEqual(deadGrid, nextGen);
@@ -43,11 +45,10 @@ namespace GameOfLife.Game.Test
         [TestMethod]
         public void TestAliveCellInCornerWithNeighbourDies()
         {
-            IGame game = new Game();
             IGrid grid = new Grid(3, 3);
             grid[0, 0] = new Cell(true);
             grid[1, 1] = new Cell(true);
-            var nextGen = game.NextGeneration(grid);
+            var nextGen = _game.NextGeneration(grid);
 
             IGrid deadGrid = new Grid(3, 3);
             Assert.AreEqual(deadGrid, nextGen);
@@ -56,13 +57,12 @@ namespace GameOfLife.Game.Test
         [TestMethod]
         public void TestAliveCellWithTwoNeighboursSurvives()
         {
-            IGame game = new Game();
             IGrid grid = new Grid(3, 3);
             grid[0, 0] = new Cell(true);
             grid[0, 1] = new Cell(true);
             grid[1, 1] = new Cell(true);
-            var nextGen = game.NextGeneration(grid);
-            
+            var nextGen = _game.NextGeneration(grid);
+
             Assert.AreEqual(grid, nextGen);
         }
 
@@ -70,7 +70,6 @@ namespace GameOfLife.Game.Test
         [TestMethod]
         public void TestAliveCellWithFourNeighboursDies()
         {
-            IGame game = new Game();
             IGrid grid = new Grid(3, 3);
             /*
              * O | . | O
@@ -82,7 +81,7 @@ namespace GameOfLife.Game.Test
             grid[0, 2] = new Cell(true);
             grid[2, 0] = new Cell(true);
             grid[1, 1] = new Cell(true);
-            var nextGen = game.NextGeneration(grid);
+            var nextGen = _game.NextGeneration(grid);
 
             Assert.IsFalse(nextGen[1, 1].IsAlive);
         }
@@ -90,7 +89,6 @@ namespace GameOfLife.Game.Test
         [TestMethod]
         public void TestDeadCellWithThreeNeighboursResurects()
         {
-            IGame game = new Game();
             IGrid grid = new Grid(3, 3);
             /*
              * O | . | O
@@ -102,7 +100,7 @@ namespace GameOfLife.Game.Test
             grid[0, 2] = new Cell(true);
             grid[2, 0] = new Cell(true);
             grid[1, 1] = new Cell(true);
-            var nextGen = game.NextGeneration(grid);
+            var nextGen = _game.NextGeneration(grid);
 
             Assert.IsTrue(nextGen[1, 2].IsAlive);
         }
@@ -110,7 +108,6 @@ namespace GameOfLife.Game.Test
         [TestMethod]
         public void TestDeadCellWithFourNeighboursStaysdead()
         {
-            IGame game = new Game();
             IGrid grid = new Grid(3, 3);
             /*
              * O | . | O
@@ -122,7 +119,7 @@ namespace GameOfLife.Game.Test
             grid[0, 2] = new Cell(true);
             grid[2, 0] = new Cell(true);
             grid[1, 1] = new Cell(true);
-            var nextGen = game.NextGeneration(grid);
+            var nextGen = _game.NextGeneration(grid);
 
             Assert.IsFalse(nextGen[1, 0].IsAlive);
         }
@@ -130,7 +127,6 @@ namespace GameOfLife.Game.Test
         [TestMethod]
         public void TestBlockStaysBlock()
         {
-            IGame game = new Game();
             IGrid grid = new Grid(4, 4);
             /*
              * . | . | . | .
@@ -142,7 +138,7 @@ namespace GameOfLife.Game.Test
             grid[1, 2] = new Cell(true);
             grid[2, 1] = new Cell(true);
             grid[2, 2] = new Cell(true);
-            var nextGen = game.NextGeneration(grid);
+            var nextGen = _game.NextGeneration(grid);
 
             Assert.AreEqual(grid, nextGen);
         }
@@ -150,7 +146,6 @@ namespace GameOfLife.Game.Test
         [TestMethod]
         public void TestBlinkerPeriodOne()
         {
-            IGame game = new Game();
             IGrid grid = new Grid(3, 3);
             /*
              * . | . | .
@@ -160,7 +155,7 @@ namespace GameOfLife.Game.Test
             grid[0, 1] = new Cell(true);
             grid[1, 1] = new Cell(true);
             grid[2, 1] = new Cell(true);
-            var nextGen = game.NextGeneration(grid);
+            var nextGen = _game.NextGeneration(grid);
 
             IGrid expected = new Grid(3, 3);
             /*
@@ -173,10 +168,10 @@ namespace GameOfLife.Game.Test
             expected[1, 2] = new Cell(true);
             Assert.AreEqual(expected, nextGen);
         }
+
         [TestMethod]
         public void TestBlinkerPeriodTwo()
         {
-            IGame game = new Game();
             IGrid grid = new Grid(3, 3);
             /*
             * . | O | .
@@ -186,7 +181,7 @@ namespace GameOfLife.Game.Test
             grid[1, 0] = new Cell(true);
             grid[1, 1] = new Cell(true);
             grid[1, 2] = new Cell(true);
-            var nextGen = game.NextGeneration(grid);
+            var nextGen = _game.NextGeneration(grid);
 
             IGrid expected = new Grid(3, 3);
             /*
