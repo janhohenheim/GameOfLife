@@ -58,14 +58,20 @@ namespace GameOfLife.Game.Test
         public void TestAliveCellWithTwoNeighboursSurvives()
         {
             IGrid grid = new Grid(3, 3);
+            /*
+             * O | . | .
+             * O | O | .
+             * . | . | .
+             */
             grid[0, 0] = new Cell(true);
             grid[0, 1] = new Cell(true);
             grid[1, 1] = new Cell(true);
             var nextGen = _game.NextGeneration(grid);
 
-            Assert.AreEqual(grid, nextGen);
+            Assert.IsTrue(nextGen[0, 0].IsAlive);
+            Assert.IsTrue(nextGen[0, 1].IsAlive);
+            Assert.IsTrue(nextGen[1, 1].IsAlive);
         }
-
 
         [TestMethod]
         public void TestAliveCellWithFourNeighboursDies()

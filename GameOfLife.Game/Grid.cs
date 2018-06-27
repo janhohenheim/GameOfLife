@@ -38,7 +38,9 @@ namespace GameOfLife.Game
         {
             if (obj is Grid grid)
             {
-                return _grid == grid._grid;
+                var sameDimensions = Height == grid.Height && Width == grid.Width;
+                var sameItems = _grid.Cast<ICell>().SequenceEqual(grid._grid.Cast<ICell>());
+                return sameDimensions && sameItems;
             }
 
             return false;
