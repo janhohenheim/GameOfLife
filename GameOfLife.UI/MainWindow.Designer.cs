@@ -39,6 +39,7 @@
             this.pnlHost.Size = new System.Drawing.Size(776, 426);
             this.pnlHost.TabIndex = 0;
             this.pnlHost.Click += new System.EventHandler(this.pnlHost_Click);
+            this.pnlHost.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlHost_Paint);
             // 
             // MainWindow
             // 
