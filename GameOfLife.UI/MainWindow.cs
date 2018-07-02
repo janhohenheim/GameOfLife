@@ -2,24 +2,28 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using GameOfLife.Game;
+using GameOfLife.UI.Properties;
 
 namespace GameOfLife.UI
 {
+    public delegate IGrid GridFactory(int width, int height);
+
     public partial class MainWindow : Form
     {
-        public MainWindow()
+        private readonly IGame _game;
+        private readonly GridFactory _gridFactory;
+        private readonly IGraphicsGridDrawer _gridDrawer;
+        private IGrid _grid;
+
+        public MainWindow(IGame game, GridFactory gridFactory, IGraphicsGridDrawer gridDrawer)
         {
+            _game = game;
+            _gridFactory = gridFactory;
+            _gridDrawer = gridDrawer;
+            _grid = gridFactory(Settings.Default.DefaultWidth, Settings.Default.DefaultHeight);
+            
             InitializeComponent();
-        }
-
-        private void MainWindow_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pnlHost_Click(object sender, EventArgs e)
-        {
-            Debugger.Break();
         }
 
         private void pnlHost_Paint(object sender, PaintEventArgs e)
@@ -27,10 +31,12 @@ namespace GameOfLife.UI
             var panel = (Panel)sender;
             var graphics = e.Graphics;
 
-            using (var brush = new SolidBrush(Color.Maroon))
+            using (var brush = new SolidBrush(Color.Black))
             using (var pen = new Pen(brush))
             {
-                graphics.DrawLine(pen, new Point(15, 15), new Point(199, 123) );
+                const int cellSize = 10;
+                var rect = new Rectangle(10, 10, cellSize, cellSize);
+                
             }
         }
     }

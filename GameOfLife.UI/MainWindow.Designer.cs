@@ -38,7 +38,6 @@
             this.pnlHost.Name = "pnlHost";
             this.pnlHost.Size = new System.Drawing.Size(776, 426);
             this.pnlHost.TabIndex = 0;
-            this.pnlHost.Click += new System.EventHandler(this.pnlHost_Click);
             this.pnlHost.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlHost_Paint);
             // 
             // MainWindow
@@ -49,7 +48,6 @@
             this.Controls.Add(this.pnlHost);
             this.Name = "MainWindow";
             this.Text = "Game of Life";
-            this.Load += new System.EventHandler(this.MainWindow_Load);
             this.ResumeLayout(false);
 
         }
